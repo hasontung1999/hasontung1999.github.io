@@ -2,21 +2,18 @@
 <html>
 	<head>
 		<TITLE>HA SON TUNG</TITLE>
-
-
 	</head>
 	<body>
-
 		<h1>Ha Son Tung</h1>
 		<video id="v" controls loop src="peaceful.mp4" width="500" height="500"></video>
 		<canvas id="c" style="border: 1px solid black" width="1500" height="500"></canvas>
 		<script type="text/javascript">
-			var canvas=document.querySelector("#c");
+			var canvas=document.getElementById('c');
 			var context=canvas.getContext('2d');
 
 			document.addEventListener('DOMContentLoaded',function()
 			{
-				var v=document.querySelector("#v");
+				var v=document.getElementById('v');
 				var context=canvas.getContext('2d');
 				v.addEventListener('loadedmetadata',function()
 				{
