@@ -5,34 +5,118 @@
 	</head>
 	<body>
 		<h1>Ha Son Tung</h1>
-		<video id="v" controls loop src="peaceful.mp4" width="500" height="500"></video>
-		<canvas id="c" style="border: 1px solid black" width="1500" height="500"></canvas>
+		<video id="v" controls loop src="peaceful.mp4" width="500" height="350"></video>
+		<div>
+			<canvas id="canvas1" style="border: 1px solid black" width="500" height="350"></canvas>
+			&nbsp;
+			<canvas id="canvas2" style="border:1px solid red" width="500" height="350"></canvas>
+		</div>
 		<script type="text/javascript">
-			var canvas=document.getElementById('c');
-			var context=canvas.getContext('2d');
+			var canvas1=document.getElementById('canvas1');
+			var canvas2=document.getElementById('canvas2');
+			//var context=canvas1.getContext('2d');
+			var width=canvas1.width;
+			var height=canvas1.height;
+
+			function at(x,y,w)
+			{
+				return x*w+y;
+			}
+
+			function grayScale(input,canvas) 
+			{
+				var w=input.width;
+				var h=input.height;
+				var context=canvas.getContext('2d');
+				var imageOutput=context.createImageData(w,h);
+				var inputData=input.data;
+				var outputData=imageOutput.data;
+                for (var i=0;i<inputData.length;i+=4 )
+                {
+                    var value = (inputData[i]+inputData[++i]+inputData[++i])/3;
+                    outputData[i]=value;
+                    outputData[++i]=value;
+                    outputData[++i]=value;
+                }
+                //context.putImageData(outputData,0,0)
+                return imageOutput;
+            }
+
+            function sobelEdgeDetect(image,canvasPara,threshold)
+            {
+            	var data=image;
+            	var kernelX=[[-1,0,1],[-2,0,2],[-1,0,1]];
+                var kernelY=[[-1,-2,-1],[0,0,0],[1,2,1]];
+                var kernelSize=kernelX.length;
+                var rowOffset=canvasPara.width;
+                var maxPixelOffset = canvasPara.width * 2 + kernelSize - 1;
+                var SQRT = Math.sqrt;
+        		var ATAN2 =  Math.atan2;
+        		var length = data.length - maxPixelOffset
+        		var magnitudes = new Array(length);
+        		var directions = new Array(length);
+        		for(var i = 0; i < length; i++)
+        		{
+            		// sum of each pixel * kernel value
+            		var sumX = 0, sumY = 0;
+            		for(var x = 0; x < kernelSize; x++)
+            		{
+                		for(var y = 0; y < kernelSize; y++)
+                		{
+                   			var px = data[i + (rowOffset * y) + x];
+                    		var r = px[0];
+
+                    		// use px[0] (i.e. R value) because grayscale anyway)
+                    		sumX += r * kernelX[y][x];
+                    		sumY += r * kernelY[y][x];
+                		}
+           			}
+           			var mag = SQRT(sumX*sumX + sumY*sumY);
+            		var direction = ATAN2(sumX,sumY);
+            		// compare neighbours
+            		// set magnitude to 0 if doesn't exceed threshold, else set to magnitude
+            		magnitudes[i] = mag > threshold? mag : 0;
+            		directions[i] = mag > threshold? direction : 0;
+
+     			}
+     			return [magnitudes, directions];
+            }
 
 			document.addEventListener('DOMContentLoaded',function()
 			{
 				var v=document.getElementById('v');
-				var context=canvas.getContext('2d');
-				v.addEventListener('loadedmetadata',function()
+				//var context=canvas1.getContext('2d');
+				/*v.addEventListener('loadedmetadata',function()
 				{
-					canvas.width=this.videoWidth;
-					canvas.height=this.videoHeight;
+					this.width=canvas1.width;
+					this.height=canvas1.height;
 					//this.videoWidth=canvas.width;
 					//this.videoHeight=canvas.height;
-				});
-				var draw=function()
+				});*/
+				var draw=function(image,canvas)
 				{
-					context.drawImage(v,0,0);
+					var context=canvas.getContext('2d');
+					context.drawImage(image,0,0,width,height);
 				}
 				v.addEventListener('play',function()
 				{
+					(function loop()
+					{
 					if(v.paused||v.ended) return;
-					draw();
+					draw(v,canvas1);
+					canvas2.getContext('2d').drawImage(v,0,0,width,height);
+					var data=canvas2.getContext('2d').getImageData(0,0,width,height);
+
+					//var image=new Image(v);
+					//var imageGray=grayScale(image,canvas2);
+					//draw(imageGray,canvas2);
+					//canvas2.getContext('2d').putImageData(imageGray,0,0);
+					setTimeout(loop,1000/50); //fps 50
+					})();
 				});
 
 			});
 		</script>
 	</body>
 </html>
+
