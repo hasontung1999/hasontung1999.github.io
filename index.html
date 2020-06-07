@@ -113,7 +113,7 @@
 					//draw(imageGray,canvas2);
 
 					//var imageSobel=canvas2.getContext('2d').getImageData(0,0,width,height);
-					print(imageGray);
+					console.log(imageGray);
 					var edge=sobelEdgeDetect(imageGray,canvas2,125);
 					canvas2.getContext('2d').putImageData(edge,0,0);
 					setTimeout(loop,1000/50); //fps 50
