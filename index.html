@@ -54,7 +54,8 @@
                 var SQRT = Math.sqrt;
         		//var ATAN2 =  Math.atan2;
         		var length = data.length - maxPixelOffset;
-        		var magnitudes = new ImageData(width,height);
+        		var magnitudes = canvasPara.getContext('2d').createImageData(width,height);
+        		var magData=magnitudes.data;
         		//var directions = new ImageData(image.width,image.height);
         		for(var i = 0; i < length; i++)
         		{
@@ -76,7 +77,7 @@
             		//var direction = ATAN2(sumX,sumY);
             		// compare neighbours
             		// set magnitude to 0 if doesn't exceed threshold, else set to magnitude
-            		magnitudes.data[i] = mag > threshold? mag : 0;
+            		magData[i] = mag > threshold? mag : 0;
             		//directions.data[i] = mag > threshold? direction : 0;
 
      			}
