@@ -108,8 +108,8 @@
 
 					//var image=new Image(v);
 					var imageGray=grayScale(image,canvas2);
-					draw(imageGray,canvas2);
-					//canvas2.getContext('2d').putImageData(imageGray,0,0);
+					//draw(imageGray,canvas2);
+					canvas2.getContext('2d').putImageData(imageGray,0,0);
 					setTimeout(loop,1000/50); //fps 50
 					})();
 				});
