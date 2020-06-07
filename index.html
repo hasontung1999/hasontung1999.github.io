@@ -31,12 +31,12 @@
 				var imageOutput=context.createImageData(w,h);
 				var inputData=input.data;
 				var outputData=imageOutput.data;
-                for (var i=0;i<inputData.length;i+=4 )
+                for (var i=0;i<inputData.length;i+=4)
                 {
-                    var value = (inputData[i]+inputData[++i]+inputData[++i])/3;
+                    var value = (inputData[i]+inputData[i+1]+inputData[i+2])/3;
                     outputData[i]=value;
-                    outputData[++i]=value;
-                    outputData[++i]=value;
+                    outputData[i+1]=value;
+                    outputData[i+2]=value;
                 }
                 //context.putImageData(outputData,0,0)
                 return imageOutput;
