@@ -54,8 +54,8 @@
                 var SQRT = Math.sqrt;
         		var ATAN2 =  Math.atan2;
         		var length = data.length - maxPixelOffset;
-        		var magnitudes = new ImageData();
-        		var directions = new ImageData();
+        		var magnitudes = new ImageData(image.width,image.height);
+        		var directions = new ImageData(image.width,image.height);
         		for(var i = 0; i < length; i++)
         		{
             		// sum of each pixel * kernel value
