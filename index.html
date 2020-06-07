@@ -52,10 +52,10 @@
                 var rowOffset=canvasPara.width;
                 var maxPixelOffset = canvasPara.width * 2 + kernelSize - 1;
                 var SQRT = Math.sqrt;
-        		var ATAN2 =  Math.atan2;
+        		//var ATAN2 =  Math.atan2;
         		var length = data.length - maxPixelOffset;
-        		var magnitudes = new ImageData(image.width,image.height);
-        		var directions = new ImageData(image.width,image.height);
+        		var magnitudes = new ImageData(width,height);
+        		//var directions = new ImageData(image.width,image.height);
         		for(var i = 0; i < length; i++)
         		{
             		// sum of each pixel * kernel value
@@ -73,14 +73,14 @@
                 		}
            			}
            			var mag = SQRT(sumX*sumX + sumY*sumY);
-            		var direction = ATAN2(sumX,sumY);
+            		//var direction = ATAN2(sumX,sumY);
             		// compare neighbours
             		// set magnitude to 0 if doesn't exceed threshold, else set to magnitude
             		magnitudes.data[i] = mag > threshold? mag : 0;
-            		directions.data[i] = mag > threshold? direction : 0;
+            		//directions.data[i] = mag > threshold? direction : 0;
 
      			}
-     			return [magnitudes, directions];
+     			return magnitudes;//, directions];
             }
 
 			document.addEventListener('DOMContentLoaded',function()
@@ -115,7 +115,7 @@
 					//var imageSobel=canvas2.getContext('2d').getImageData(0,0,width,height);
 					//console.log(imageGray.data.length);
 					var edge=sobelEdgeDetect(imageGray,canvas2,125);
-					canvas2.getContext('2d').putImageData(edge[0],0,0);
+					canvas2.getContext('2d').putImageData(edge,0,0);
 					setTimeout(loop,1000/50); //fps 50
 					})();
 				});
