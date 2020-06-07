@@ -54,8 +54,8 @@
                 var SQRT = Math.sqrt;
         		var ATAN2 =  Math.atan2;
         		var length = data.length - maxPixelOffset;
-        		var magnitudes = new Array(length);
-        		var directions = new Array(length);
+        		var magnitudes = new ImageData();
+        		var directions = new ImageData();
         		for(var i = 0; i < length; i++)
         		{
             		// sum of each pixel * kernel value
@@ -76,8 +76,8 @@
             		var direction = ATAN2(sumX,sumY);
             		// compare neighbours
             		// set magnitude to 0 if doesn't exceed threshold, else set to magnitude
-            		magnitudes[i] = mag > threshold? mag : 0;
-            		directions[i] = mag > threshold? direction : 0;
+            		magnitudes.data[i] = mag > threshold? mag : 0;
+            		directions.data[i] = mag > threshold? direction : 0;
 
      			}
      			return [magnitudes, directions];
