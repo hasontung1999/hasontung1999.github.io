@@ -135,6 +135,7 @@
                 	outputData[i+3]=inputData[i+3];
                 	j++;
                 }
+                console.log(sobelX);
                 return magnitudes;
             }
 
@@ -170,7 +171,7 @@
 					//var imageSobel=canvas2.getContext('2d').getImageData(0,0,width,height);
 					//console.log(imageGray);
 					var edge=edgeDetectorBySobel(imageGray,canvas2);
-					console.log(edge);
+					//console.log(edge);
 					canvas2.getContext('2d').putImageData(edge,0,0);
 					setTimeout(loop,1000/50); //fps 50
 					})();
