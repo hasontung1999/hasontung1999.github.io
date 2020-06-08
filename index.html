@@ -18,11 +18,6 @@
 			var width=canvas1.width;
 			var height=canvas1.height;
 
-			/*function at(x,y,w)
-			{
-				return x*w+y;
-			}*/
-
 			function grayScale(input,canvas) 
 			{
 				var inputData=input.data;
@@ -43,47 +38,6 @@
                 return input;
             }
 
-            /*function sobelEdgeDetect(image,canvasPara,threshold)
-            {
-            	var data=image.data;
-            	var kernelX=[[-1,0,1],[-2,0,2],[-1,0,1]];
-                var kernelY=[[-1,-2,-1],[0,0,0],[1,2,1]];
-                var kernelSize=kernelX.length;
-                var rowOffset=canvasPara.width;
-                var maxPixelOffset = canvasPara.width * 2 + kernelSize - 1;
-                var SQRT = Math.sqrt;
-        		//var ATAN2 =  Math.atan2;
-        		var length = data.length - maxPixelOffset;
-        		var magnitudes = canvasPara.getContext('2d').createImageData(width,height);
-        		var magData=magnitudes.data;
-        		//var directions = new ImageData(image.width,image.height);
-        		for(var i = 0; i < length; i++)
-        		{
-            		// sum of each pixel * kernel value
-            		var sumX = 0, sumY = 0;
-            		for(var x = 0; x < kernelSize; x++)
-            		{
-                		for(var y = 0; y < kernelSize; y++)
-                		{
-                   			var px = data[i + (rowOffset * y) + x];
-                    		var r = px[0];
-
-                    		// use px[0] (i.e. R value) because grayscale anyway)
-                    		sumX += r * kernelX[y][x];
-                    		sumY += r * kernelY[y][x];
-                		}
-           			}
-           			var mag = SQRT(sumX*sumX + sumY*sumY);
-            		//var direction = ATAN2(sumX,sumY);
-            		// compare neighbours
-            		// set magnitude to 0 if doesn't exceed threshold, else set to magnitude
-            		magData[i] = mag > threshold? mag : 0;
-            		//directions.data[i] = mag > threshold? direction : 0;
-
-     			}
-     			return magnitudes;//, directions];
-            }*/
-
             function edgeDetectorBySobel(image,canvas)
             {
             	var w=image.width;
@@ -95,7 +49,6 @@
                 var inputData=image.data;
                 var outputData=magnitudes.data;
 
-                //console.log(inputData.length);
 
                 var sobelX=[];
                 var sobelY=[];
@@ -146,22 +99,14 @@
                 	outputData[++i]=inputData[i];
                 	j++;i++;
                 }
-                //console.log(sobelX);
-                //console.log(sobelX.length);
+                
                 return magnitudes;
             }
 
 			document.addEventListener('DOMContentLoaded',function()
 			{
 				var v=document.getElementById('v');
-				//var context=canvas1.getContext('2d');
-				/*v.addEventListener('loadedmetadata',function()
-				{
-					this.width=canvas1.width;
-					this.height=canvas1.height;
-					//this.videoWidth=canvas.width;
-					//this.videoHeight=canvas.height;
-				});*/
+
 				var draw=function(image,canvas)
 				{
 					var context=canvas.getContext('2d');
@@ -175,15 +120,10 @@
 					draw(v,canvas1);
 					var image=canvas1.getContext('2d').getImageData(0,0,width,height);
 
-					//var image=new Image(v);
 					var imageGray=grayScale(image,canvas2);
-					//canvas2.getContext('2d').putImageData(imageGray,0,0);
-					//draw(imageGray,canvas2);
 
-					//var imageSobel=canvas2.getContext('2d').getImageData(0,0,width,height);
-					//console.log(imageGray);
 					var edge=edgeDetectorBySobel(imageGray,canvas2);
-					//console.log(edge);
+					
 					canvas2.getContext('2d').putImageData(edge,0,0);
 					setTimeout(loop,1000/50); //fps 50
 					})();
