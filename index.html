@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<TITLE>HA SON TUNG</TITLE>
+		<TITLE>Phát hiện biên cạnh bằng Sobel</TITLE>
 	</head>
 	<body>
-		<h1>Ha Son Tung</h1>
+		<h1>Hà Sơn Tùng-1712881</h1>
 		<video id="v" controls loop src="peaceful.mp4" width="500" height="350"></video>
 		<div>
 			<canvas id="canvas1" style="border: 1px solid black" width="500" height="350"></canvas>
@@ -14,7 +14,6 @@
 		<script type="text/javascript">
 			var canvas1=document.getElementById('canvas1');
 			var canvas2=document.getElementById('canvas2');
-			//var context=canvas1.getContext('2d');
 			var width=canvas1.width;
 			var height=canvas1.height;
 
@@ -123,7 +122,7 @@
 					var imageGray=grayScale(image,canvas2);
 
 					var edge=edgeDetectorBySobel(imageGray,canvas2);
-					
+
 					canvas2.getContext('2d').putImageData(edge,0,0);
 					setTimeout(loop,1000/50); //fps 50
 					})();
