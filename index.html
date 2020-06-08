@@ -7,21 +7,19 @@
 		<h1>Hà Sơn Tùng-1712881</h1>
 		<video id="v" controls loop src="peaceful.mp4" width="500" height="350"></video>
 		<div>
-			Canvas video:<p>Canvas edge detection by Sobel:<br>
 			<canvas id="canvas1" style="border: 1px solid black" width="500" height="350"></canvas>
 			&nbsp;
 			<canvas id="canvas2" style="border:1px solid red" width="500" height="350"></canvas>
 		</div>
 		<script type="text/javascript">
-			p{
-				word-spacing:30 px;
-			}
 			var canvas1=document.getElementById('canvas1');
 			var canvas2=document.getElementById('canvas2');
 			var width=canvas1.width;
 			var height=canvas1.height;
 
-			function grayScale(input,canvas) 
+			// Hàm chuyển ảnh RGB sang độ xám
+			// *input là ảnh đầu vào
+			function grayScale(input) 
 			{
 				var inputData=input.data;
 				var width=input.width;
@@ -41,30 +39,38 @@
                 return input;
             }
 
+            // Hàm xác định biên cạnh bằng Sobel
+            // *image: ảnh input, có kiểu ImageData
+            // *canvas: canvas sẽ in ảnh đã phát hiện biên cạnh lên
+            // output là ảnh đã phát hiện biên cạnh, có kiểu ImageData.
             function edgeDetectorBySobel(image,canvas)
             {
             	var w=image.width;
             	var h=image.height;
+            	// Kernel của Sobel
             	var kernelX=[-1,0,1,-2,0,2,-1,0,1];
                 var kernelY=[-1,-2,-1,0,0,0,1,2,1];
-                var magnitudes = canvas.getContext('2d').createImageData(width,height);
+                //Tạo ImageData để lưu độ lớn của biên.
+                var magnitudes = canvas.getContext('2d').createImageData(w,h);
 
                 var inputData=image.data;
                 var outputData=magnitudes.data;
-
 
                 var sobelX=[];
                 var sobelY=[];
                 var SQRT=Math.sqrt;
                 var FLOOR=Math.floor;
-                var j=0;
-                var value=0;
+
+                var j=0; //Biến lưu số lần lặp
+                var value=0; //Biến lưu giá trị độ lớn
 
                 for(var i =0;i<inputData.length;)
                 {
-                	var index=i-3*j;
+                	var index=i-3*j; //Biến xác định chỉ số cho mảng sobelX, sobelY
+                	// x và y dùng để xác định vị trí của pixel lân cận
                 	var x= FLOOR(index/w);
                 	var y=index%w;
+                	//Bỏ qua trường hợp ở biên của ảnh
                 	if(x==0 || y==0||x==w-1||y==h-1)
                 	{
                 		sobelX[index]=0;
@@ -73,6 +79,7 @@
                 	}
                 	else
                 	{
+                		// phải dịch trái 2 bit (tức là nhân với 4) vì ảnh đầu vào ImageData có 4 kênh màu.
 	                	sobelX[index]=inputData[i]*kernelX[4];
 	                	sobelX[index]+=inputData[((x-1)*w+y-1)<<2]*kernelX[0];
 	                	sobelX[index]+=inputData[((x-1)*w+y)<<2]*kernelX[1];
@@ -109,7 +116,7 @@
 			document.addEventListener('DOMContentLoaded',function()
 			{
 				var v=document.getElementById('v');
-
+				// Hàm vẽ ảnh lên canvas
 				var draw=function(image,canvas)
 				{
 					var context=canvas.getContext('2d');
@@ -123,11 +130,11 @@
 					draw(v,canvas1);
 					var image=canvas1.getContext('2d').getImageData(0,0,width,height);
 
-					var imageGray=grayScale(image,canvas2);
+					var imageGray=grayScale(image);
 
-					var edge=edgeDetectorBySobel(imageGray,canvas2);
+					var edgeImage=edgeDetectorBySobel(imageGray,canvas2);
 
-					canvas2.getContext('2d').putImageData(edge,0,0);
+					canvas2.getContext('2d').putImageData(edgeImage,0,0);
 					setTimeout(loop,1000/50); //fps 50
 					})();
 				});
