@@ -86,12 +86,46 @@
 
             function edgeDetectorBySobel(image,canvas)
             {
+            	var w=canvas.width;
+            	var h=canvas.height;
             	var kernelX=[-1,0,1,-2,0,2,-1,0,1];
                 var kernelY=[-1,-2,-1,0,0,0,1,2,1];
                 var magnitudes = canvasPara.getContext('2d').createImageData(width,height);
                 var inputData=image.data;
                 var outputData=magnitudes.data;
+                var magData=magnitudes.data;
+                var sobelX=new Array(inputData.length);
+                var sobelY=new Array(inputData.length);
+                var SQRT=Math.sqrt;
+                for(var i =0;i<inputData.length;i++)
+                {
+                	var x= int(i/w);
+                	var y=i%w;
+                	if(x==0 || y==0||x==w-1||y==h-1)
+                		continue;
+                	sobelX[i]=inputData[i]*kernelX[4];
+                	sobelX[i]+=inputData[at(x-1,y-1)]*kernelX[0];
+                	sobelX[i]+=inputData[at(x-1,y)]*kernelX[1];
+                	sobelX[i]+=inputData[at(x-1,y+1)]*kernelX[2];
+                	sobelX[i]+=inputData[at(x,y-1)]*kernelX[3];
+                	sobelX[i]+=inputData[at(x,y+1)]*kernelX[5];
+                	sobelX[i]+=inputData[at(x+1,y-1)]*kernelX[6];
+                	sobelX[i]+=inputData[at(x+1,y)]*kernelX[7];
+                	sobelX[i]+=inputData[at(x+1,y+1)]*kernelX[8];
 
+                	sobelY[i]=inputData[i]*kernelY[4];
+                	sobelY[i]+=inputData[at(x-1,y-1)]*kernelY[0];
+                	sobelY[i]+=inputData[at(x-1,y)]*kernelY[1];
+                	sobelY[i]+=inputData[at(x-1,y+1)]*kernelY[2];
+                	sobelY[i]+=inputData[at(x,y-1)]*kernelY[3];
+                	sobelY[i]+=inputData[at(x,y+1)]*kernelY[5];
+                	sobelY[i]+=inputData[at(x+1,y-1)]*kernelY[6];
+                	sobelY[i]+=inputData[at(x+1,y)]*kernelY[7];
+                	sobelY[i]+=inputData[at(x+1,y+1)]*kernelY[8];
+
+                	magData[i]=SQRT(sobelX[i]*sobelX[i]+sobelY[i]*sobelY[i]);
+                }
+                return magnitudes;
             }
 
 			document.addEventListener('DOMContentLoaded',function()
@@ -124,9 +158,9 @@
 					//draw(imageGray,canvas2);
 
 					//var imageSobel=canvas2.getContext('2d').getImageData(0,0,width,height);
-					console.log(imageGray.data);
-					//var edge=sobelEdgeDetect(imageGray,canvas2,125);
-					//canvas2.getContext('2d').putImageData(edge,0,0);
+					//console.log(imageGray.data);
+					var edge=edgeDetectorBySobel(imageGray,canvas2);
+					canvas2.getContext('2d').putImageData(edge,0,0);
 					setTimeout(loop,1000/50); //fps 50
 					})();
 				});
