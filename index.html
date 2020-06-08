@@ -108,7 +108,11 @@
                 	var x= FLOOR(index/w);
                 	var y=index%w;
                 	if(x==0 || y==0||x==w-1||y==h-1)
+                	{
+                		sobelX=0;
+                		sobelY=0;
                 		continue;
+                	}
                 	sobelX[index]=inputData[i]*kernelX[4];
                 	sobelX[index]+=inputData[((x-1)*w+y-1)<<2]*kernelX[0];
                 	sobelX[index]+=inputData[((x-1)*w+y)<<2]*kernelX[1];
