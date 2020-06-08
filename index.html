@@ -98,7 +98,8 @@
                 var sobelY=new Array(inputData.length);
                 var SQRT=Math.sqrt;
                 var FLOOR=Math.floor;
-                for(var i =0;i<inputData.length;i++)
+                var j=-1
+                for(var i =0;i<inputData.length-w*4;i+=4)
                 {
                 	var x= FLOOR(i/w);
                 	var y=i%w;
@@ -126,7 +127,8 @@
 
                 	value=SQRT(sobelX[i]*sobelX[i]+sobelY[i]*sobelY[i]);
 
-                	magData[i]=magData[++i]=magData[++i]=value;
+                	magData[++j]=magData[++j]=magData[++j]=value;
+                	++j;
                 }
                 return magnitudes;
             }
@@ -161,7 +163,7 @@
 					//draw(imageGray,canvas2);
 
 					//var imageSobel=canvas2.getContext('2d').getImageData(0,0,width,height);
-					console.log(imageGray);
+					//console.log(imageGray);
 					var edge=edgeDetectorBySobel(imageGray,canvas2);
 					canvas2.getContext('2d').putImageData(edge,0,0);
 					setTimeout(loop,1000/50); //fps 50
