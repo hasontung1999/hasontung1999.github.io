@@ -91,15 +91,16 @@
             	var kernelX=[-1,0,1,-2,0,2,-1,0,1];
                 var kernelY=[-1,-2,-1,0,0,0,1,2,1];
                 var magnitudes = canvas.getContext('2d').createImageData(width,height);
+
                 var inputData=image.data;
                 var outputData=magnitudes.data;
-                var magData=magnitudes.data;
-                var sobelX=new Array(inputData.length);
-                var sobelY=new Array(inputData.length);
+
+                var sobelX=new Array(inputData.length/4);
+                var sobelY=new Array(inputData.length/4);
                 var SQRT=Math.sqrt;
                 var FLOOR=Math.floor;
                 var j=0
-                for(var i =0;i<inputData.length;)
+                for(var i =0;i<inputData.length;i+=4)
                 {
                 	var index=i-3*j;
                 	var x= FLOOR(index/w);
@@ -128,8 +129,10 @@
 
                 	value=SQRT(sobelX[index]*sobelX[index]+sobelY[index]*sobelY[index]);
 
-                	magData[i]=magData[++i]=magData[++i]=value;
-                	magData[++i]=inputData[i];
+                	outputData[i]=value;
+                	outputData[i+1]=value;
+                	outputData[i+2]=value;
+                	outputData[i+3]=inputData[i+3];
                 	j++;
                 }
                 return magnitudes;
