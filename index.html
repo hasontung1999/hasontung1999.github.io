@@ -18,10 +18,10 @@
 			var width=canvas1.width;
 			var height=canvas1.height;
 
-			function at(x,y,w)
+			/*function at(x,y,w)
 			{
 				return x*w+y;
-			}
+			}*/
 
 			function grayScale(input,canvas) 
 			{
@@ -159,7 +159,7 @@
 					//draw(imageGray,canvas2);
 
 					//var imageSobel=canvas2.getContext('2d').getImageData(0,0,width,height);
-					//console.log(imageGray.data);
+					console.log(imageGray);
 					var edge=edgeDetectorBySobel(imageGray,canvas2);
 					canvas2.getContext('2d').putImageData(edge,0,0);
 					setTimeout(loop,1000/50); //fps 50
