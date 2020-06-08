@@ -43,7 +43,7 @@
                 return input;
             }
 
-            function sobelEdgeDetect(image,canvasPara,threshold)
+            /*function sobelEdgeDetect(image,canvasPara,threshold)
             {
             	var data=image.data;
             	var kernelX=[[-1,0,1],[-2,0,2],[-1,0,1]];
@@ -82,7 +82,7 @@
 
      			}
      			return magnitudes;//, directions];
-            }
+            }*/
 
             function edgeDetectorBySobel(image,canvas)
             {
@@ -95,7 +95,7 @@
                 var inputData=image.data;
                 var outputData=magnitudes.data;
 
-                console.log(inputData.length);
+                //console.log(inputData.length);
 
                 var sobelX=[];
                 var sobelY=[];
@@ -104,7 +104,7 @@
                 var j=0;
                 var value=0;
 
-                for(var i =0;i<inputData.length;i+=4)
+                for(var i =0;i<inputData.length;)
                 {
                 	var index=i-3*j;
                 	var x= FLOOR(index/w);
@@ -141,13 +141,13 @@
                 	}
 
                 	outputData[i]=value;
-                	outputData[i+1]=value;
-                	outputData[i+2]=value;
-                	outputData[i+3]=inputData[i+3];
+                	outputData[++i]=value;
+                	outputData[++i]=value;
+                	outputData[++i]=inputData[i];
                 	j++;
                 }
-                console.log(sobelX);
-                console.log(sobelX.length);
+                //console.log(sobelX);
+                //console.log(sobelX.length);
                 return magnitudes;
             }
 
