@@ -94,11 +94,11 @@
 
                 var inputData=image.data;
                 var outputData=magnitudes.data;
-                
+
                 console.log(inputData.length);
 
-                var sobelX=new Array(inputData.length/4);
-                var sobelY=new Array(inputData.length/4);
+                var sobelX=[];
+                var sobelY=[];
                 var SQRT=Math.sqrt;
                 var FLOOR=Math.floor;
                 var j=0
@@ -138,6 +138,7 @@
                 	j++;
                 }
                 console.log(sobelX);
+                console.log(sobelX.length);
                 return magnitudes;
             }
 
