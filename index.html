@@ -101,7 +101,9 @@
                 var sobelY=[];
                 var SQRT=Math.sqrt;
                 var FLOOR=Math.floor;
-                var j=0
+                var j=0;
+                var value=0;
+
                 for(var i =0;i<inputData.length;i+=4)
                 {
                 	var index=i-3*j;
@@ -109,31 +111,34 @@
                 	var y=index%w;
                 	if(x==0 || y==0||x==w-1||y==h-1)
                 	{
-                		sobelX=0;
-                		sobelY=0;
-                		continue;
+                		sobelX[index]=0;
+                		sobelY[index]=0;
+                		value=0;
                 	}
-                	sobelX[index]=inputData[i]*kernelX[4];
-                	sobelX[index]+=inputData[((x-1)*w+y-1)<<2]*kernelX[0];
-                	sobelX[index]+=inputData[((x-1)*w+y)<<2]*kernelX[1];
-                	sobelX[index]+=inputData[((x-1)*w+y+1)<<2]*kernelX[2];
-                	sobelX[index]+=inputData[(x*w+y-1)<<2]*kernelX[3];
-                	sobelX[index]+=inputData[(x*w+y+1)<<2]*kernelX[5];
-                	sobelX[index]+=inputData[((x+1)*w+y-1)<<2]*kernelX[6];
-                	sobelX[index]+=inputData[((x+1)*w+y)<<2]*kernelX[7];
-                	sobelX[index]+=inputData[((x+1)*w+y+1)<<2]*kernelX[8];
+                	else
+                	{
+	                	sobelX[index]=inputData[i]*kernelX[4];
+	                	sobelX[index]+=inputData[((x-1)*w+y-1)<<2]*kernelX[0];
+	                	sobelX[index]+=inputData[((x-1)*w+y)<<2]*kernelX[1];
+	                	sobelX[index]+=inputData[((x-1)*w+y+1)<<2]*kernelX[2];
+	                	sobelX[index]+=inputData[(x*w+y-1)<<2]*kernelX[3];
+	                	sobelX[index]+=inputData[(x*w+y+1)<<2]*kernelX[5];
+	                	sobelX[index]+=inputData[((x+1)*w+y-1)<<2]*kernelX[6];
+	                	sobelX[index]+=inputData[((x+1)*w+y)<<2]*kernelX[7];
+	                	sobelX[index]+=inputData[((x+1)*w+y+1)<<2]*kernelX[8];
 
-                	sobelY[index]=inputData[i]*kernelY[4];
-                	sobelY[index]+=inputData[((x-1)*w+y-1)<<2]*kernelY[0];
-                	sobelY[index]+=inputData[((x-1)*w+y)<<2]*kernelY[1];
-                	sobelY[index]+=inputData[((x-1)*w+y+1)<<2]*kernelY[2];
-                	sobelY[index]+=inputData[(x*w+y-1)<<2]*kernelY[3];
-                	sobelY[index]+=inputData[(x*w+y+1)<<2]*kernelY[5];
-                	sobelY[index]+=inputData[((x+1)*w+y-1)<<2]*kernelY[6];
-                	sobelY[index]+=inputData[((x+1)*w+y)<<2]*kernelY[7];
-                	sobelY[index]+=inputData[((x+1)*w+y+1)<<2]*kernelY[8];
+	                	sobelY[index]=inputData[i]*kernelY[4];
+	                	sobelY[index]+=inputData[((x-1)*w+y-1)<<2]*kernelY[0];
+	                	sobelY[index]+=inputData[((x-1)*w+y)<<2]*kernelY[1];
+	                	sobelY[index]+=inputData[((x-1)*w+y+1)<<2]*kernelY[2];
+	                	sobelY[index]+=inputData[(x*w+y-1)<<2]*kernelY[3];
+	                	sobelY[index]+=inputData[(x*w+y+1)<<2]*kernelY[5];
+	                	sobelY[index]+=inputData[((x+1)*w+y-1)<<2]*kernelY[6];
+	                	sobelY[index]+=inputData[((x+1)*w+y)<<2]*kernelY[7];
+	                	sobelY[index]+=inputData[((x+1)*w+y+1)<<2]*kernelY[8];
 
-                	value=SQRT(sobelX[index]*sobelX[index]+sobelY[index]*sobelY[index]);
+	                	value=SQRT(sobelX[index]*sobelX[index]+sobelY[index]*sobelY[index]);
+                	}
 
                 	outputData[i]=value;
                 	outputData[i+1]=value;
