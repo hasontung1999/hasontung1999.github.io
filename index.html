@@ -97,9 +97,10 @@
                 var sobelX=new Array(inputData.length);
                 var sobelY=new Array(inputData.length);
                 var SQRT=Math.sqrt;
+                var FLOOR=Math.floor;
                 for(var i =0;i<inputData.length;i++)
                 {
-                	var x= int(i/w);
+                	var x= FLOOR(i/w);
                 	var y=i%w;
                 	if(x==0 || y==0||x==w-1||y==h-1)
                 		continue;
